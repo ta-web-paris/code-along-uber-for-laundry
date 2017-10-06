@@ -2,19 +2,21 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 
-router.get('/signup', (req, res, next) => {
+const { ensureLoggedIn, ensureLoggedOut } = require('../middlewares/auth');
+
+router.get('/signup', ensureLoggedOut, (req, res, next) => {
   res.render('auth/signup', {
     errorMessage: req.flash('error'),
   });
 });
 
-router.get('/login', (req, res, next) => {
+router.get('/login', ensureLoggedOut, (req, res, next) => {
   res.render('auth/login', {
     errorMessage: req.flash('error'),
   });
 });
 
-router.get('/logout', (req, res, next) => {
+router.get('/logout', ensureLoggedIn, (req, res, next) => {
   req.logout();
   res.redirect('/login');
 });
