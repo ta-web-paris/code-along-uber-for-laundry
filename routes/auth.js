@@ -2,9 +2,14 @@ const express = require('express');
 const passport = require('passport');
 const router = express.Router();
 
-/* GET home page. */
 router.get('/signup', (req, res, next) => {
   res.render('auth/signup', {
+    errorMessage: req.flash('error'),
+  });
+});
+
+router.get('/login', (req, res, next) => {
+  res.render('auth/login', {
     errorMessage: req.flash('error'),
   });
 });
@@ -12,8 +17,17 @@ router.get('/signup', (req, res, next) => {
 router.post(
   '/signup',
   passport.authenticate('local-signup', {
-    successRedirect: '/',
+    successRedirect: '/login',
     failureRedirect: '/signup',
+    failureFlash: true,
+  })
+);
+
+router.post(
+  '/login',
+  passport.authenticate('local-login', {
+    successRedirect: '/',
+    failureRedirect: '/login',
     failureFlash: true,
   })
 );

@@ -80,12 +80,32 @@ passport.use(
           if (err) {
             // duplicated email
             if (err.code === 11000) {
-              req.flash('error', `email ${email} is already used`);
-              return next(null, false);
+              return next(null, false, {
+                message: `email ${email} is already used`,
+              });
             }
           }
           next(err, user);
         });
+      });
+    }
+  )
+);
+
+passport.use(
+  'local-login',
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+    },
+    (email, password, next) => {
+      User.findOne({ email }, (err, user) => {
+        if (err) return next(err);
+        if (!user || !bcrypt.compareSync(password, user.password)) {
+          return next(null, false, { message: 'Email and password do not match' });
+        }
+
+        return next(null, user);
       });
     }
   )
