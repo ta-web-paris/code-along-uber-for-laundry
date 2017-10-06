@@ -37,4 +37,17 @@ router.get('/:id', ensureLoggedIn, (req, res, next) => {
   );
 });
 
+router.post('/', ensureLoggedIn, (req, res, next) => {
+  User.findByIdAndUpdate(
+    req.user._id,
+    {
+      fee: req.body.fee,
+    },
+    err => {
+      if (err) return next(err);
+      res.redirect('/dashboard');
+    }
+  );
+});
+
 module.exports = router;

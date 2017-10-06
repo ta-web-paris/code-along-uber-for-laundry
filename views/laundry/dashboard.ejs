@@ -1,4 +1,5 @@
-<h2> Your laundry Dashboard </h2>
+<h2>
+  <%= user.name %>'s Dashboard </h2>
 
 <ul>
   <li> <a href="/launderers"> Find a Launderer </a> </li>
@@ -9,24 +10,37 @@
 
 <ul>
   <% pickups.forEach(pickup => { %>
-    <li>Pickup
-      <strong>
+    <li class="<%= pickup.status %>">
+      (<%= pickup.status %>) Pickup
+        <strong>
           <%= moment(pickup.date).fromNow() %>
       </strong>
-      <%= user.isLaunderer ? 'for' : 'by' %>
-        <i><%= user.isLaunderer ? pickup.user.name : pickup.launderer.name %></i>
+        <%= user.isLaunderer ? 'for' : 'by' %>
+          <i><%= user.isLaunderer ? pickup.user.name : pickup.launderer.name %></i>
+      <% if (user.isLaunderer) { %>
+      <form action="launderers/<%=pickup.launderer%>/pickups/status" method="post">
+        <input type="hidden" value="accepted">
+        <button>Accept</button>
+      </form>
+      <form action="launderers/<%=pickup.launderer%>/pickups/status" method="post">
+        <input type="hidden" value="rejected">
+        <button>Reject</button>
+      </form>
+      <% } %>
     </li>
     <% }) %>
 </ul>
 
 
-<h3> Want to become a launderer? </h3>
+<% if (user.isLaunderer) { %>
+  <h3> Launderer panel </h3>
 
-<form action="/launderers" method="post">
-  <div>
-    <label for="fee-input"> Set your fee </label>
-    <input type="number" name="fee" id="fee-input">
-  </div>
+  <form action="/launderers" method="post">
+    <div>
+      <label for="fee-input"> Set your fee </label>
+      <input type="number" name="fee" id="fee-input" value="<%= user.fee %>">
+    </div>
 
-  <button> Become a Launderer </button>
-</form>
+    <button>Save</button>
+  </form>
+  <% } %>

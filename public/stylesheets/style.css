@@ -1,8 +1,28 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Lucida Grande', Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
+}
+
+.waiting {
+  background-color: #ffe342;
+  color: black;
+}
+
+.accepted {
+  background-color: #9bfb4c;
+  color: black;
+}
+
+.rejected {
+  background-color: #ff425b;
+  color: white;
+}
+
+.done {
+  background-color: #4274ff;
+  color: white;
 }
