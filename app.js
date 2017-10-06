@@ -118,6 +118,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 const index = require('./routes/index');
 const authController = require('./routes/auth');
 
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+
 app.use('/', index);
 app.use('/', authController);
 

@@ -14,6 +14,11 @@ router.get('/login', (req, res, next) => {
   });
 });
 
+router.get('/logout', (req, res, next) => {
+  req.logout();
+  res.redirect('/login');
+});
+
 router.post(
   '/signup',
   passport.authenticate('local-signup', {
