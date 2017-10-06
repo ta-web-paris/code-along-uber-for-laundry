@@ -5,6 +5,20 @@
   <li> <a href="/logout"> Log Out </a> </li>
 </ul>
 
+<h2>Your scheduled pickups</h2>
+
+<ul>
+  <% pickups.forEach(pickup => { %>
+    <li>Pickup
+      <strong>
+          <%= moment(pickup.date).fromNow() %>
+      </strong>
+      <%= user.isLaunderer ? 'for' : 'by' %>
+        <i><%= user.isLaunderer ? pickup.user.name : pickup.launderer.name %></i>
+    </li>
+    <% }) %>
+</ul>
+
 
 <h3> Want to become a launderer? </h3>
 

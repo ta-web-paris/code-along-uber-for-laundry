@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 const { ensureLoggedIn, ensureLoggedOut } = require('../middlewares/auth');
 
-router.get('/', ensureLoggedIn, (req, res) => {
+router.get('/', ensureLoggedIn, (req, res, next) => {
   User.find(
     {
       isLaunderer: true,
@@ -13,6 +13,25 @@ router.get('/', ensureLoggedIn, (req, res) => {
       if (err) return next(err);
       res.render('laundry/launderers', {
         launderers: launderers,
+        errorMessage: req.flash('error'),
+      });
+    }
+  );
+});
+
+router.get('/:id', ensureLoggedIn, (req, res, next) => {
+  User.findOne(
+    {
+      _id: req.params.id,
+      isLaunderer: true,
+    },
+    (err, launderer) => {
+      if (err || !launderer) {
+        req.flash('error', `There's no launderer with id ${req.params.id}`);
+        return res.redirect('/launderers');
+      }
+      res.render('laundry/launderer-profile', {
+        launderer: launderer,
       });
     }
   );

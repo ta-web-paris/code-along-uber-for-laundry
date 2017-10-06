@@ -1,5 +1,11 @@
 <h2> Find a launderer </h2>
 
+<% if (errorMessage) { %>
+  <p class="error-message">
+    <%= errorMessage %>
+  </p>
+<% } %>
+
 <ul>
   <% launderers.forEach((launderer) => { %>
     <li>

@@ -2,13 +2,19 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const laundryPickupSchema = new Schema({
-  pickupDate: Date,
-  user: { type: Schema.Types.ObjectId, ref: 'User' },
-  launderer: { type: Schema.Types.ObjectId, ref: 'User' }
+  date: { type: Date, required: true },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
+  launderer: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
 });
 
 laundryPickupSchema.set('timestamps', true);
 
-const LaundryPickup = mongoose.model('LaundryPickup', laundryPickupSchema);
-
-module.exports = LaundryPickup;
+module.exports = mongoose.model('LaundryPickup', laundryPickupSchema);
